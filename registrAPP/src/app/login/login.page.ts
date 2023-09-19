@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormGroup,
-  FormControl,
-  Validators,
-  FormBuilder
-} from '@angular/forms';
+import {FormGroup, FormControl, Validators, FormBuilder} from '@angular/forms';
 import { AlertController, NavController } from '@ionic/angular';
 import { DatosService } from 'src/app/datos.service';
+import { ElementRef, ViewChildren, ViewChild } from '@angular/core';
+import type { QueryList } from '@angular/core';
+import type { Animation } from '@ionic/angular';
+import { AnimationController, IonCard } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-login',
@@ -15,15 +15,17 @@ import { DatosService } from 'src/app/datos.service';
 })
 
 export class LoginPage implements OnInit {
-
-  
+ 
+  @ViewChild(IonCard, { read: ElementRef }) card!: ElementRef<HTMLIonCardElement>;
+  private animation: any |null = null;  
   
   formularioLogin: FormGroup;
 
   constructor(public fb: FormBuilder,
     public alertController: AlertController,
     private datosService: DatosService,
-    public navCtrl: NavController) { 
+    public navCtrl: NavController,
+    private animationCtrl: AnimationController) { 
 
     this.formularioLogin = this.fb.group({
       'nombre': new FormControl("", Validators.required),
@@ -32,13 +34,24 @@ export class LoginPage implements OnInit {
 
   }
 
+  ngAfterViewInit() {
+    this.animation = this.animationCtrl
+      .create()
+      .addElement(this.card.nativeElement)
+      .duration(1500)
+      .iterations(Infinity)
+      .direction('alternate')
+      .fromTo('background', 'blue', 'var(--background)');
+
+      if (this.animation) {
+        this.animation.play();
+      }
+  }
   
-  ngOnInit(
-    
-  ) {
+  ngOnInit() {
+    this.ngAfterViewInit();
   }
 
-  
   async login(){
 
     var f = this.formularioLogin.value;
@@ -60,4 +73,6 @@ export class LoginPage implements OnInit {
       await alert.present();
     }
   }
+
 }
+

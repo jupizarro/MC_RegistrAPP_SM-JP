@@ -1,5 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar >
+    
+    <ion-back-button slot="start"></ion-back-button>
     <ion-title>¿Olvido su contraseña?</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -10,6 +12,7 @@
       <ion-title size="medium">restablecerPass</ion-title>
     </ion-toolbar>
   </ion-header>
+  
 
   <ion-card class="cardRecupera">
     <ion-card-header>
@@ -19,11 +22,16 @@
     <ion-card>
       <form [formGroup]="formularioRestablecer">
         <ion-item>
+          <ion-input labelPlacement="floating">
+            <div slot="label">Usuario<ion-text color="danger">(Requerido)</ion-text></div>
+          </ion-input>
+        </ion-item>
+        <ion-item>
           <ion-input labelPlacement="floating" formControlName="pass1">
             <div slot="label">Nueva contraseña<ion-text color="danger">(Requerido)</ion-text></div>
           </ion-input>
         </ion-item>
-
+        
 
       </form>
     </ion-card>
